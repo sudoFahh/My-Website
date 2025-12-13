@@ -43,9 +43,11 @@ h2 {
 }
 
 a {
-  color: #ebebe8;
+  color: #90846d
+  text-decoration: none;
 }
 
 a:hover {
   color: #f2ecce;
+  text-decoration: none;
 }
