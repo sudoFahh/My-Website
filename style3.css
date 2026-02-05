@@ -1,11 +1,4 @@
-@font-face {
-  font-family: "Ruigslay";
-  src: url("Ruigslay.otf") format("opentype");
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap');
 
 *,
 *::before,
@@ -69,11 +62,11 @@ body {
 }
 
 .statement .me {
-  font-family: "Ruigslay", serif;
+  font-family: "Instrument Serif", serif;
   font-size: clamp(6rem, 14vw, 9rem);
   line-height: 0.9;
   margin: 0.5rem 0 0;
-  font-weight: 700;
+  font-style: italic;
 }
 
 .links {
