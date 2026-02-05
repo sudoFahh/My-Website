@@ -24,23 +24,13 @@
       <a href="mailto:m4.sh@tuta.io">/email</a>
       <a href="https://github.com/compactdiscdrive">/github</a>
       <a href="https://vncl.xyz">/company</a>
-	  <a href="#" id="summon-cat">[ summon cat ]</a>
     </nav>
   </aside> 
   
 </div>
 <script src="oneko.js"></script>
 <script>
-  let catSummoned = false;
-
-  document.getElementById("summon-cat").addEventListener("click", (e) => {
-    e.preventDefault();
-    if (!catSummoned) {
-      oneko();
-      catSummoned = true;
-    }
-  });
+	oneko();
 </script>
-
 </body>
 </html>
