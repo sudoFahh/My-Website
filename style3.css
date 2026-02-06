@@ -4,8 +4,6 @@
   font-style: normal;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap');
-
 *,
 *::before,
 *::after {
@@ -68,7 +66,7 @@ body {
 }
 
 .statement .me {
-  font-family: "Instrument Serif", serif;
+  font-family: "Iosevka Term Slab", serif;
   font-size: clamp(6rem, 14vw, 9rem);
   line-height: 0.9;
   margin: 0.5rem 0 0;
