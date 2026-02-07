@@ -15,7 +15,7 @@ html {
 }
 
 p {
-  font-family: "Iosevka Term Slab", monospace;
+  font-family: "Iosevka Term Slab", serif;
 }
 
 #tiny {
@@ -30,7 +30,7 @@ body {
   margin: 0;
   background: #f2ecce; /* paper beige */
   color: #1d1d20;      /* ink */
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: "Iosevka Term Slab", serif;
   cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Ccircle cx='8' cy='8' r='3.25' fill='black' stroke='white' stroke-width='2'/%3E%3C/svg%3E") 8 8, auto;
 }
 
