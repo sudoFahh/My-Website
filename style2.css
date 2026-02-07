@@ -26,7 +26,7 @@ p {
   padding-bottom: 0.8rem;
 }
 
-body {
+html {
   margin: 0;
   background: #f2ecce; /* paper beige */
   color: #1d1d20;      /* ink */
