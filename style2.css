@@ -110,3 +110,19 @@ body {
 * {
   font-family: "Iosevka Term Slab", monospace;
 }
+
+.links a {
+  position: relative;
+  color: rgba(29, 29, 32, 0.45);
+  text-decoration: none;
+}
+
+.blurb {
+  position: absolute;
+  left: 100%;
+  margin-left: 8px;
+  white-space: nowrap;
+  font-size: 0.45rem;
+  color: rgba(29, 29, 32, 0.6);
+  pointer-events: none;
+}
