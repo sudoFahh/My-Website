@@ -5,6 +5,38 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>/home</title>
         <link rel="stylesheet" href="style2.css" />
+		<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const blurbData = {
+    '/about': ['POKEMON!', 'webdev', 'cool stuff', 'idk'],
+    '/blog': ['thoughts', 'rambles', 'ideas'],
+    '/projects': ['MY PROJECTS LOLOL', 'things i made', 'portfolio'],
+    '/webrings': ['internet rings', 'community'],
+    'mailto:m4.sh@tuta.io': ['get in touch', 'send a note', 'wowow email!!!'],
+    'https://github.com/compactdiscdrive': ['code go brrr', 'github'],
+    'https://vncl.xyz': ['""""my company""""', 'vinculum?']
+  };
+
+  document.querySelectorAll('.links a').forEach(link => {
+    const href = link.getAttribute('href');
+    const blurbs = blurbData[href];
+    
+    if (blurbs) {
+      link.addEventListener('mouseenter', function() {
+        const randomBlurb = blurbs[Math.floor(Math.random() * blurbs.length)];
+        
+        let blurbEl = this.querySelector('.blurb');
+        if (!blurbEl) {
+          blurbEl = document.createElement('span');
+          blurbEl.className = 'blurb';
+          this.appendChild(blurbEl);
+        }
+        blurbEl.textContent = randomBlurb;
+      });
+    }
+  });
+});
+</script>
     </head>
 <body>       
 <div class="page">
