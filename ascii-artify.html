@@ -43,12 +43,10 @@
 
         .upload-zone:hover {
             background: rgba(0, 255, 0, 0.1);
-            border-color: #00ff00;
         }
 
         .upload-zone.dragging {
             background: rgba(0, 255, 0, 0.2);
-            border-color: #00ff00;
         }
 
         input[type="file"] {
@@ -70,7 +68,6 @@
 
         label {
             font-size: 0.9rem;
-            color: #00ff00;
         }
 
         input[type="range"],
@@ -82,41 +79,27 @@
             font-family: 'Courier New', monospace;
         }
 
-        input[type="range"] {
-            cursor: pointer;
-        }
-
         button {
             background: #00ff00;
             color: #0a0a0a;
             border: none;
             padding: 0.75rem 1.5rem;
-            font-family: 'Courier New', monospace;
             font-weight: bold;
             cursor: pointer;
-            transition: all 0.3s;
-            font-size: 1rem;
         }
 
         button:hover {
-            background: #00cc00;
             box-shadow: 0 0 20px #00ff00;
         }
 
         button:disabled {
             opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        .output {
-            margin-top: 2rem;
         }
 
         .preview-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 2rem;
-            margin-bottom: 2rem;
         }
 
         .preview-box {
@@ -125,33 +108,17 @@
             background: #0f0f0f;
         }
 
-        .preview-box h3 {
-            margin-bottom: 1rem;
-            color: #00ff00;
-        }
-
         #preview {
             max-width: 100%;
-            height: auto;
-            display: block;
         }
 
-        #ascii-output {
-            background: #000;
-            border: 1px solid #00ff00;
-            padding: 1rem;
-            overflow-x: auto;
-            white-space: pre;
-            line-height: 1;
-            font-size: 8px;
-            letter-spacing: 0;
-            color: #00ff00;
-            margin-bottom: 1rem;
+        #asciiCanvas {
+            max-width: 100%;
+            image-rendering: pixelated;
         }
 
         .stats {
             font-size: 0.8rem;
-            color: #00ff00;
             opacity: 0.7;
             margin-top: 0.5rem;
         }
@@ -160,237 +127,162 @@
             .preview-container {
                 grid-template-columns: 1fr;
             }
-            
-            h1 {
-                font-size: 1.5rem;
-            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>▓█▓ ASCII ART CONVERTER ▓█▓</h1>
-        
-        <div class="upload-zone" id="uploadZone">
-            <p style="font-size: 1.2rem; margin-bottom: 1rem;">▲ DROP IMAGE HERE ▲</p>
-            <p style="opacity: 0.7;">or click to browse</p>
-            <input type="file" id="fileInput" accept="image/*">
+<div class="container">
+    <h1>▓█▓ ASCII ART CONVERTER ▓█▓</h1>
+
+    <div class="upload-zone" id="uploadZone">
+        <p style="font-size: 1.2rem;">▲ DROP IMAGE HERE ▲</p>
+        <input type="file" id="fileInput" accept="image/*">
+    </div>
+
+    <div class="controls">
+        <div class="control-group">
+            <label>Width: <span id="widthValue">100</span></label>
+            <input type="range" id="width" min="20" max="200" value="100">
         </div>
 
-        <div class="controls">
-            <div class="control-group">
-                <label for="width">Width (characters): <span id="widthValue">100</span></label>
-                <input type="range" id="width" min="20" max="200" value="100">
-            </div>
-
-            <div class="control-group">
-                <label for="charset">Character Set:</label>
-                <select id="charset">
-                    <option value="standard">Standard</option>
-                    <option value="simple">Simple</option>
-                    <option value="blocks">Blocks</option>
-                    <option value="binary">Binary</option>
-                </select>
-            </div>
-
-            <div class="control-group">
-                <label for="invert">
-                    <input type="checkbox" id="invert"> Invert Colors
-                </label>
-            </div>
-
-            <div class="control-group">
-                <button id="copyBtn" disabled>COPY TO CLIPBOARD</button>
-            </div>
+        <div class="control-group">
+            <label>Charset</label>
+            <select id="charset">
+                <option value="standard">Standard</option>
+                <option value="simple">Simple</option>
+                <option value="blocks">Blocks</option>
+                <option value="binary">Binary</option>
+            </select>
         </div>
 
-        <div class="output" id="output" style="display: none;">
-            <div class="preview-container">
-                <div class="preview-box">
-                    <h3>▓ ORIGINAL IMAGE</h3>
-                    <img id="preview" alt="Preview">
-                </div>
-                <div class="preview-box">
-                    <h3>▓ ASCII OUTPUT</h3>
-                    <canvas id="asciiCanvas" style="max-width: 100%; height: auto; image-rendering: pixelated;"></canvas>
-                </div>
-            </div>
+        <div class="control-group">
+            <label><input type="checkbox" id="invert"> Invert</label>
+        </div>
+
+        <div class="control-group">
+            <button id="copyBtn" disabled>COPY ASCII</button>
         </div>
     </div>
 
-    <script>
-        const uploadZone = document.getElementById('uploadZone');
-        const fileInput = document.getElementById('fileInput');
-        const preview = document.getElementById('preview');
-        const asciiOutput = document.getElementById('ascii-output');
-        const asciiCanvas = document.getElementById('asciiCanvas');
-        const output = document.getElementById('output');
-        const widthSlider = document.getElementById('width');
-        const widthValue = document.getElementById('widthValue');
-        const charsetSelect = document.getElementById('charset');
-        const invertCheckbox = document.getElementById('invert');
-        const copyBtn = document.getElementById('copyBtn');
-        const stats = document.getElementById('stats');
+    <div id="output" style="display:none;">
+        <div class="preview-container">
+            <div class="preview-box">
+                <img id="preview">
+            </div>
+            <div class="preview-box">
+                <canvas id="asciiCanvas"></canvas>
+                <div class="stats" id="stats"></div>
+            </div>
+        </div>
+    </div>
+</div>
 
-        const charsets = {
-            standard: " .'`^\",:;Il!i><~+_-?][}{1)(|\\/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$",
-            simple: " .:-=+*#%@",
-            blocks: " ░▒▓█",
-            binary: " █"
+<script>
+const uploadZone = document.getElementById('uploadZone');
+const fileInput = document.getElementById('fileInput');
+const preview = document.getElementById('preview');
+const asciiCanvas = document.getElementById('asciiCanvas');
+const output = document.getElementById('output');
+const widthSlider = document.getElementById('width');
+const widthValue = document.getElementById('widthValue');
+const charsetSelect = document.getElementById('charset');
+const invertCheckbox = document.getElementById('invert');
+const copyBtn = document.getElementById('copyBtn');
+const stats = document.getElementById('stats');
+
+const charsets = {
+    standard: " .'`^\",:;Il!i><~+_-?][}{1)(|\\/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$",
+    simple: " .:-=+*#%@",
+    blocks: " ░▒▓█",
+    binary: " █"
+};
+
+let currentImage = null;
+let asciiText = '';
+
+uploadZone.onclick = () => fileInput.click();
+
+fileInput.onchange = e => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.onload = () => {
+        const img = new Image();
+        img.onload = () => {
+            currentImage = img;
+            preview.src = reader.result;
+            output.style.display = 'block';
+            generateAscii();
         };
+        img.src = reader.result;
+    };
+    reader.readAsDataURL(file);
+};
 
-        let currentImage = null;
-        let asciiText = '';
+widthSlider.oninput = () => {
+    widthValue.textContent = widthSlider.value;
+    if (currentImage) generateAscii();
+};
 
-        // Upload zone interactions
-        uploadZone.addEventListener('click', () => fileInput.click());
+charsetSelect.onchange = () => currentImage && generateAscii();
+invertCheckbox.onchange = () => currentImage && generateAscii();
 
-        uploadZone.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            uploadZone.classList.add('dragging');
-        });
+copyBtn.onclick = () => {
+    navigator.clipboard.writeText(asciiText);
+};
 
-        uploadZone.addEventListener('dragleave', () => {
-            uploadZone.classList.remove('dragging');
-        });
+function generateAscii() {
+    const width = +widthSlider.value;
+    const charset = charsets[charsetSelect.value];
+    const invert = invertCheckbox.checked;
 
-        uploadZone.addEventListener('drop', (e) => {
-            e.preventDefault();
-            uploadZone.classList.remove('dragging');
-            const file = e.dataTransfer.files[0];
-            if (file && file.type.startsWith('image/')) {
-                handleImage(file);
-            }
-        });
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
 
-        fileInput.addEventListener('change', (e) => {
-            const file = e.target.files[0];
-            if (file) {
-                handleImage(file);
-            }
-        });
+    const h = Math.floor(width * (currentImage.height / currentImage.width) * 0.5);
+    canvas.width = width;
+    canvas.height = h;
 
-        // Control listeners
-        widthSlider.addEventListener('input', (e) => {
-            widthValue.textContent = e.target.value;
-            if (currentImage) {
-                generateAscii();
-            }
-        });
+    ctx.drawImage(currentImage, 0, 0, width, h);
+    const pixels = ctx.getImageData(0, 0, width, h).data;
 
-        charsetSelect.addEventListener('change', () => {
-            if (currentImage) {
-                generateAscii();
-            }
-        });
-
-        invertCheckbox.addEventListener('change', () => {
-            if (currentImage) {
-                generateAscii();
-            }
-        });
-
-        copyBtn.addEventListener('click', () => {
-            navigator.clipboard.writeText(asciiText).then(() => {
-                const originalText = copyBtn.textContent;
-                copyBtn.textContent = 'COPIED!';
-                setTimeout(() => {
-                    copyBtn.textContent = originalText;
-                }, 2000);
-            });
-        });
-
-        function handleImage(file) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                const img = new Image();
-                img.onload = () => {
-                    currentImage = img;
-                    preview.src = e.target.result;
-                    output.style.display = 'block';
-                    generateAscii();
-                };
-                img.src = e.target.result;
-            };
-            reader.readAsDataURL(file);
+    let ascii = '';
+    for (let y = 0; y < h; y++) {
+        for (let x = 0; x < width; x++) {
+            const i = (y * width + x) * 4;
+            const brightness = (0.299*pixels[i] + 0.587*pixels[i+1] + 0.114*pixels[i+2]) / 255;
+            const val = invert ? 1 - brightness : brightness;
+            ascii += charset[Math.floor(val * (charset.length - 1))];
         }
+        ascii += '\n';
+    }
 
-        function generateAscii() {
-            const width = parseInt(widthSlider.value);
-            const charset = charsets[charsetSelect.value];
-            const invert = invertCheckbox.checked;
+    asciiText = ascii;
+    copyBtn.disabled = false;
+    stats.textContent = `${width}×${h}`;
 
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
+    render(ascii, width, h);
+}
 
-            // Calculate dimensions
-            const aspectRatio = currentImage.height / currentImage.width;
-            const height = Math.floor(width * aspectRatio * 0.5); // 0.5 for character aspect ratio
+function render(ascii, w, h) {
+    const ctx = asciiCanvas.getContext('2d');
+    const fs = 6;
+    const cw = fs * 0.6;
 
-            canvas.width = width;
-            canvas.height = height;
+    asciiCanvas.width = w * cw;
+    asciiCanvas.height = h * fs;
 
-            // Draw and get image data
-            ctx.drawImage(currentImage, 0, 0, width, height);
-            const imageData = ctx.getImageData(0, 0, width, height);
-            const pixels = imageData.data;
+    ctx.fillStyle = "#000";
+    ctx.fillRect(0, 0, asciiCanvas.width, asciiCanvas.height);
 
-            // Generate ASCII
-            let ascii = '';
-            for (let y = 0; y < height; y++) {
-                for (let x = 0; x < width; x++) {
-                    const idx = (y * width + x) * 4;
-                    const r = pixels[idx];
-                    const g = pixels[idx + 1];
-                    const b = pixels[idx + 2];
-                    
-                    // Calculate brightness
-                    const brightness = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
-                    const adjustedBrightness = invert ? 1 - brightness : brightness;
-                    
-                    // Map to character
-                    const charIndex = Math.floor(adjustedBrightness * (charset.length - 1));
-                    ascii += charset[charIndex];
-                }
-                ascii += '\n';
-            }
+    ctx.fillStyle = "#0f0";
+    ctx.font = `${fs}px monospace`;
 
-            asciiText = ascii;
-            asciiOutput.textContent = ascii;
-            copyBtn.disabled = false;
-
-            // Update stats
-            const lines = ascii.split('\n').length - 1;
-            const chars = ascii.length - lines; // Exclude newlines
-            stats.textContent = `${width}×${height} characters | ${lines} lines | ${chars} total chars`;
-
-            // Render to canvas for preview
-            renderAsciiToCanvas(ascii, width, height);
-        }
-
-        function renderAsciiToCanvas(ascii, width, height) {
-            const fontSize = 6;
-            const charWidth = fontSize * 0.6;
-            const charHeight = fontSize;
-
-            asciiCanvas.width = width * charWidth;
-            asciiCanvas.height = height * charHeight;
-
-            const ctx = asciiCanvas.getContext('2d');
-            ctx.fillStyle = '#000';
-            ctx.fillRect(0, 0, asciiCanvas.width, asciiCanvas.height);
-            
-            ctx.fillStyle = '#00ff00';
-            ctx.font = `${fontSize}px Courier New`;
-            ctx.textBaseline = 'top';
-
-            const lines = ascii.split('\n');
-            lines.forEach((line, y) => {
-                for (let x = 0; x < line.length; x++) {
-                    ctx.fillText(line[x], x * charWidth, y * charHeight);
-                }
-            });
-        }
-    </script>
+    ascii.split('\n').forEach((line, y) => {
+        [...line].forEach((c, x) => {
+            ctx.fillText(c, x * cw, y * fs);
+        });
+    });
+}
+</script>
 </body>
 </html>
