@@ -1,0 +1,321 @@
+<!DOCTYPE HTML>
+<head>
+  <title>watch idea</title>
+</head>
+<body>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+.wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 1rem 1.5rem;
+  gap: 1.5rem;
+}
+.watch-scene { position: relative; width: 300px; height: 300px; }
+.watch-body {
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: #282828;
+  position: relative;
+  box-shadow:
+    0 0 0 3px #3c3c3c,
+    0 0 0 6px #202020,
+    0 0 0 9px #383838,
+    0 32px 64px rgba(0,0,0,0.65),
+    inset 0 1px 2px rgba(255,255,255,0.05),
+    inset 0 -2px 6px rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.face {
+  width: 256px;
+  height: 256px;
+  border-radius: 50%;
+  background: #C0C0B0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 20px 55px 20px 20px;
+  position: relative;
+}
+.crown {
+  position: absolute;
+  right: -22px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 22px;
+  height: 34px;
+  border-radius: 0 7px 7px 0;
+  background: linear-gradient(90deg, #363638, #565659, #363638);
+  box-shadow: 3px 0 8px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.08);
+  cursor: ns-resize;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+.crown-notch { width: 11px; height: 1.5px; background: #888; border-radius: 1px; }
+.section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  gap: 8px;
+  align-items: center;
+}
+.row {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 0;
+}
+.row-label {
+  font-family: var(--font-mono, 'Courier New', monospace);
+  font-size: 9px;
+  font-weight: 500;
+  color: #484848;
+  letter-spacing: 0.4px;
+  width: 14px;
+  text-align: right;
+  flex-shrink: 0;
+  margin-left: 3px;
+}
+.dots {
+  display: flex;
+  gap: 7px;
+  flex: 1;
+  justify-content: flex-start;
+  padding-left: 8px;
+  flex-direction: row-reverse; /* add this */
+}
+.dot {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: #a8a89a;
+  border: 1px solid #303032;
+  transition: background 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+  flex-shrink: 0;
+  position: relative;
+}
+.dot::after {
+  content: '';
+  position: absolute;
+  inset: 2px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.03);
+}
+.dot.on { border-color: transparent; }
+.thing {
+    width: 11px;
+  height: 11px;
+  }
+.dot-ampm {
+  width: 11px;
+  height: 11px;
+ justify-content: flex-end;
+}
+.divider {
+  width: 80%;
+  height: 0.5px;
+  background: #272729;
+  align-self: flex-end;
+}
+.hue-ctrl {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.hue-strip {
+  width: 190px;
+  height: 10px;
+  border-radius: 5px;
+  background: linear-gradient(to right,
+    hsl(0,90%,55%), hsl(30,90%,55%), hsl(60,85%,50%),
+    hsl(120,80%,42%), hsl(180,85%,42%), hsl(220,90%,58%),
+    hsl(260,85%,62%), hsl(300,85%,55%), hsl(330,88%,55%), hsl(360,90%,55%)
+  );
+  position: relative;
+  cursor: pointer;
+}
+.hue-thumb {
+  position: absolute;
+  top: -4px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid rgba(0,0,0,0.25);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.4);
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+.crown-label {
+  font-family: var(--font-mono, monospace);
+  font-size: 10px;
+  color: var(--color-text-secondary);
+  letter-spacing: 0.5px;
+}
+.parent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  width: 100%;
+  background: #333838;
+}
+</style>
+<div class="parent">
+<div class="wrap">
+  <div class="watch-scene">
+    <div class="watch-body">
+      <div class="crown" id="crown">
+        <div class="crown-notch"></div>
+        <div class="crown-notch"></div>
+        <div class="crown-notch"></div>
+      </div>
+      <div class="face">
+
+        <div class="section">
+          <div class="row">
+            <div class="dots" id="dots-ampm">
+              <div class="thing" data-bit="0"></div>
+              <div class="dots" id="dots-ampm">
+  <div class="dot dot-ampm" data-bit="0"></div>
+  <div class="dot dot-ampm" style="visibility:hidden"></div>
+</div>
+            </div>
+            <span class="row-label" style="font-size:8px; color:#3a3a3a;">•</span>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="section">
+          <div class="row">
+            <div class="dots" id="dots-s">
+              <div class="dot" data-bit="0"></div>
+              <div class="dot" data-bit="1"></div>
+              <div class="dot" data-bit="2"></div>
+              <div class="dot" data-bit="3"></div>
+              <div class="dot" data-bit="4"></div>
+              <div class="dot" data-bit="5"></div>
+            </div>
+            <span class="row-label">S</span>
+          </div>
+          <div class="row">
+            <div class="dots" id="dots-m">
+              <div class="dot" data-bit="0"></div>
+              <div class="dot" data-bit="1"></div>
+              <div class="dot" data-bit="2"></div>
+              <div class="dot" data-bit="3"></div>
+              <div class="dot" data-bit="4"></div>
+              <div class="dot" data-bit="5"></div>
+            </div>
+            <span class="row-label">M</span>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="section">
+          <div class="row">
+            <div class="dots" id="dots-h">
+              <div class="dot" data-bit="0"></div>
+              <div class="dot" data-bit="1"></div>
+              <div class="dot" data-bit="2"></div>
+              <div class="dot" data-bit="3"></div>
+            </div>
+            <span class="row-label">H</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="hue-ctrl">
+    <span class="crown-label" style="color:#fff">crown</span>
+    <div class="hue-strip" id="hue-strip">
+      <div class="hue-thumb" id="hue-thumb"></div>
+    </div>
+  </div>
+  <p style="font-family:'Courier New',monospace; font-size:10px; letter-spacing:3px; color:#f2ecce;">RADIX BY MANIK SHARMA</p>
+</div>
+</div>
+<script>
+let hue = 140;
+
+function ledOn(dot) {
+  const c = `hsl(${hue},85%,58%)`;
+  dot.style.background = c;
+  dot.style.boxShadow = `0 0 6px 1px hsl(${hue},85%,58%)44`;
+  dot.style.borderColor = 'transparent';
+  dot.classList.add('on');
+}
+function ledOff(dot) {
+  dot.style.background = '';
+  dot.style.boxShadow = '';
+  dot.style.borderColor = '';
+  dot.classList.remove('on');
+}
+function setRow(id, value) {
+  document.querySelectorAll(`#${id} .dot`).forEach(dot => {
+    const bit = parseInt(dot.dataset.bit);
+    ((value >> bit) & 1) ? ledOn(dot) : ledOff(dot);
+  });
+}
+function refreshOn() {
+  document.querySelectorAll('.dot.on').forEach(dot => ledOn(dot));
+}
+function tick() {
+  const now = new Date();
+  const h = now.getHours(), m = now.getMinutes(), s = now.getSeconds();
+  const ispm = h >= 12;
+  const h12 = h % 12 || 12;
+  setRow('dots-ampm', ispm ? 1 : 0);
+  setRow('dots-s', s);
+  setRow('dots-m', m);
+  setRow('dots-h', h12);
+}
+function setThumb() {
+  document.getElementById('hue-thumb').style.left = (hue / 360 * 100) + '%';
+}
+
+tick();
+setThumb();
+setInterval(tick, 1000);
+
+const strip = document.getElementById('hue-strip');
+let dragging = false;
+function fromEvent(e) {
+  const rect = strip.getBoundingClientRect();
+  const cx = e.touches ? e.touches[0].clientX : e.clientX;
+  const x = Math.max(0, Math.min(cx - rect.left, rect.width));
+  hue = Math.round(x / rect.width * 360);
+  setThumb(); refreshOn(); tick();
+}
+strip.addEventListener('mousedown', e => { dragging = true; fromEvent(e); });
+strip.addEventListener('touchstart', e => { dragging = true; fromEvent(e); }, {passive:true});
+document.addEventListener('mousemove', e => { if (dragging) fromEvent(e); });
+document.addEventListener('touchmove', e => { if (dragging) fromEvent(e); }, {passive:true});
+document.addEventListener('mouseup', () => dragging = false);
+document.addEventListener('touchend', () => dragging = false);
+
+const crown = document.getElementById('crown');
+let cDrag = false, cY0 = 0, cH0 = 0;
+crown.addEventListener('mousedown', e => { cDrag = true; cY0 = e.clientY; cH0 = hue; e.preventDefault(); });
+document.addEventListener('mousemove', e => {
+  if (!cDrag) return;
+  hue = ((cH0 + (cY0 - e.clientY)) % 360 + 360) % 360;
+  setThumb(); refreshOn(); tick();
+});
+document.addEventListener('mouseup', () => cDrag = false);
+</script>
+  </body>
