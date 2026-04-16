@@ -37,6 +37,19 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 });
+
+			const catImages = [
+  "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse4.mm.bing.net%2Fth%2Fid%2FOIP.bpIpVP_9JzSb-iUgUDqgQwHaHa%3Fpid%3DApi&f=1&ipt=1d136f8b5a135d68162cb556604a57cfa4268c9ae7b8de63487c9967c3daa035&ipo=images",
+  "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.pinimg.com%2F736x%2F5c%2F5a%2F7e%2F5c5a7e54d5dce0840928bcac4915479b.jpg&f=1&nofb=1&ipt=74dfde32d5583f7ea8541e255aaa65ecff26feaefaf3766a23ba0354ffc9e5f4",
+  "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse3.mm.bing.net%2Fth%2Fid%2FOIP.SJTroJxwLcqPAM6xQ4FfegAAAA%3Fpid%3DApi&f=1&ipt=5b93a6ec5becbfeb8bd8e26db5a4305ae3a925a4c7aae07875f2041fa2263c2b&ipo=images",
+  "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse2.explicit.bing.net%2Fth%2Fid%2FOIP.UdtWZvMdu8o6Plf4EQ55rgHaII%3Fpid%3DApi&f=1&ipt=d18deabda4105142fb6334c40ab92856a61e9a1ad1351414dd5c0ff65b3c41af&ipo=images",
+  "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse2.explicit.bing.net%2Fth%2Fid%2FOIP.G3DHSIY9kSfq3JnZ0pedcgAAAA%3Fpid%3DApi&f=1&ipt=6d6960d96f4c565858d8a80af6953fa9a55c681b204c2a2335a7f8d0d258df6b&ipo=images",
+  "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse4.mm.bing.net%2Fth%2Fid%2FOIP.0jB2i3ihWPEM-SKMti9DFAAAAA%3Fpid%3DApi&f=1&ipt=c2122da01aaf9ecee14c974c910c525824e9b9abc15167a4bf6f0fe97c0b015b&ipo=images",
+  "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse2.mm.bing.net%2Fth%2Fid%2FOIP.ucA4JAskZNZ5X05I-xfPXgHaG8%3Fpid%3DApi&f=1&ipt=94242743417f239c932410b24ee5e2385d30e6939db1cb4408140a6fafe5ce11&ipo=images"
+];
+
+const randomCat = catImages[Math.floor(Math.random() * catImages.length)];
+document.getElementById("cat-img").src = randomCat;
 </script>
     </head>
 <body>       
@@ -59,7 +72,9 @@ document.addEventListener('DOMContentLoaded', function() {
       <a href="https://vncl.xyz">/company</a>
     </nav>
   </aside> 
-  
+  <div id="cat-box">
+  <img id="cat-img" src="" alt="cat" />
+</div>
 </div>
 <script src="oneko.js"></script>
 <script>
