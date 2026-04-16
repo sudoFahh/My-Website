@@ -21,36 +21,37 @@ document.addEventListener('DOMContentLoaded', function() {
   document.querySelectorAll('.links a').forEach(link => {
     const href = link.getAttribute('href');
     const blurbs = blurbData[href];
-    
+
     if (blurbs) {
       link.addEventListener('mouseenter', function() {
         const randomBlurb = blurbs[Math.floor(Math.random() * blurbs.length)];
-        
+
         let blurbEl = this.querySelector('.blurb');
         if (!blurbEl) {
           blurbEl = document.createElement('span');
           blurbEl.className = 'blurb';
           this.appendChild(blurbEl);
         }
+
         blurbEl.textContent = randomBlurb;
       });
     }
   });
+
+  const catImages = [
+    "1.jpg",
+    "2.jpg",
+    "3.jpg",
+    "4.jpg",
+    "5.jpg",
+    "6.jpg",
+    "7.jpeg",
+    "8.jpeg"
+  ];
+
+  const randomCat = catImages[Math.floor(Math.random() * catImages.length)];
+  document.getElementById("cat-img").src = randomCat;
 });
-
-			const catImages = [
-  "1.jpg",
-  "2.jpg",
-  "3.jpg",
-  "4.jpg",
-  "5.jpg",
-  "6.jpg",
-  "7.jpeg",
-  "8.jpeg"
-];
-
-const randomCat = catImages[Math.floor(Math.random() * catImages.length)];
-document.getElementById("cat-img").src = randomCat;
 </script>
     </head>
 <body>       
