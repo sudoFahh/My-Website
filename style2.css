@@ -155,6 +155,7 @@ body {
   object-fit: cover;
 }
 
+/* Side to side boing */
 .wildcard-text {
 	font-size: clamp(4rem, 12vw, 10rem);
 	font-weight: 900;
@@ -179,33 +180,27 @@ body {
 	-webkit-text-fill-color: transparent;
 
 	filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.2));
+	transform-origin: center center;
 	animation:
 		rainbowMove 3s linear infinite,
-		boingSide 1s ease-in-out infinite;
+		headSwing 1.2s ease-in-out infinite;
 }
 
-/* Side to side boing */
-@keyframes boingSide {
+@keyframes headSwing {
 	0% {
-		transform: translateX(0) scaleX(1) scaleY(1);
+		transform: rotate(-12deg) translateY(6px);
 	}
-	15% {
-		transform: translateX(-20px) scaleX(1.12) scaleY(0.9);
-	}
-	30% {
-		transform: translateX(-35px) scaleX(0.92) scaleY(1.08);
+	25% {
+		transform: rotate(-6deg) translateY(2px);
 	}
 	50% {
-		transform: translateX(0) scaleX(1) scaleY(1);
+		transform: rotate(12deg) translateY(6px);
 	}
-	70% {
-		transform: translateX(35px) scaleX(0.92) scaleY(1.08);
-	}
-	85% {
-		transform: translateX(20px) scaleX(1.12) scaleY(0.9);
+	75% {
+		transform: rotate(6deg) translateY(2px);
 	}
 	100% {
-		transform: translateX(0) scaleX(1) scaleY(1);
+		transform: rotate(-12deg) translateY(6px);
 	}
 }
 
