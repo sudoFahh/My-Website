@@ -159,7 +159,6 @@ body {
 	font-size: clamp(4rem, 12vw, 10rem);
 	font-weight: 900;
 	font-family: 'Press Start 2P', monospace;
-	font-optical-sizing: auto;
 	letter-spacing: 0.08em;
 
 	background: linear-gradient(
@@ -182,39 +181,31 @@ body {
 	filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.2));
 	animation:
 		rainbowMove 3s linear infinite,
-		warpText 1.8s ease-in-out infinite;
+		boingSide 1s ease-in-out infinite;
 }
 
-/* Rainbow flowing through letters */
-@keyframes rainbowMove {
-	from {
-		background-position: 0% 50%;
-	}
-	to {
-		background-position: 300% 50%;
-	}
-}
-
-/* Demo-scene warp vibe */
-@keyframes warpText {
+/* Side to side boing */
+@keyframes boingSide {
 	0% {
-		transform: perspective(500px) rotateX(0deg) rotateY(0deg) skewX(0deg) scale(1);
+		transform: translateX(0) scaleX(1) scaleY(1);
 	}
-
-	25% {
-		transform: perspective(500px) rotateX(8deg) rotateY(-10deg) skewX(6deg) scale(1.05, 0.95);
+	15% {
+		transform: translateX(-20px) scaleX(1.12) scaleY(0.9);
 	}
-
+	30% {
+		transform: translateX(-35px) scaleX(0.92) scaleY(1.08);
+	}
 	50% {
-		transform: perspective(500px) rotateX(-6deg) rotateY(12deg) skewX(-8deg) scale(0.96, 1.06);
+		transform: translateX(0) scaleX(1) scaleY(1);
 	}
-
-	75% {
-		transform: perspective(500px) rotateX(5deg) rotateY(-8deg) skewX(5deg) scale(1.04, 0.96);
+	70% {
+		transform: translateX(35px) scaleX(0.92) scaleY(1.08);
 	}
-
+	85% {
+		transform: translateX(20px) scaleX(1.12) scaleY(0.9);
+	}
 	100% {
-		transform: perspective(500px) rotateX(0deg) rotateY(0deg) skewX(0deg) scale(1);
+		transform: translateX(0) scaleX(1) scaleY(1);
 	}
 }
 
